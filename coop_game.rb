@@ -1,5 +1,7 @@
-@p1 = {name: "Player 1", lives: 3}
-@p2 = {name: "Player 2", lives: 3}
+require 'colorize'
+
+@p1 = {name: "Player 1", lives: 3, color: :blue}
+@p2 = {name: "Player 2", lives: 3, color: :yellow}
 
 
 def repl
@@ -10,8 +12,8 @@ def repl
 end
 
 def question(player)
-  num1 = rand(20)
-  num2 = rand(20)
+  num1 = rand(19) + 1
+  num2 = rand(19) + 1
   # answer = num1 + num2
 
   puts "#{player[:name].capitalize}: What does #{num1} plus #{num2} equal?"
@@ -36,20 +38,24 @@ end
 def right_answer(input, num1, num2, player)
   answer = get_answer(num1, num2)
   unless answer == input
-    puts "WRONG! #{num1} plus #{num2} equals #{answer}"
+    print "Wrong!".red
+    puts " #{num1} plus #{num2} equals #{answer}"#.red
     lose_life(player)
-    puts "#{player[:name]} lives remaining: #{player[:lives]}"
+    print "#{player[:name]}".colorize(player[:color])
+    puts ": #{player[:lives]} lives remaining."
   else
-    puts "Correct! #{num1} plus #{num2} equals #{input}"
+    print "Correct!".colorize(:green)
+    puts " #{num1} plus #{num2} equals #{input}"
   end
+  puts "***************************************************".colorize(:red)
 end
 
 def get_answer(num1, num2)
   num1 + num2
-end
+end 
 
 def get_input
   gets.chomp!.to_i
-end
+end 
 
 repl
